@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { signToken } from "../config/jwt";
+import { signToken } from "../../config/jwt";
 import { User } from "../models/User";
-import { validateEmail } from "../utils/validateEmail";
-import { validatePassword } from "../utils/validatePassword";
+import { validateEmail } from "../validations/validateEmail";
+import { validatePassword } from "../validations/validatePassword";
 
 export const registerUser = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
