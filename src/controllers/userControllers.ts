@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { signToken } from "../config/jwt";
 import { User } from "../models/User";
 import { validateEmail } from "../utils/validateEmail";
 import { validatePassword } from "../utils/validatePassword";
-
-const JWT_SECRET = process.env.JWT_SECRET || "development_secret_key";
 
 export const registerUser = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -47,9 +45,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     await user.save();
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = signToken({ userId: user._id });
 
     return res.status(201).json({
       success: true,
